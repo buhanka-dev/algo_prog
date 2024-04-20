@@ -1,22 +1,15 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
-
+from instr import *
 import sys
 
 
 class ScreenMain(QWidget):
     def __init__(self):
         super().__init__()
-        start_button = QPushButton('Lorem ipsum.')
-        intrduction = QLabel('Lorem ipsum dolor sit amet.')
-        description = QLabel(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus sit amet ipsum quis '
-            'placerat. Donec malesuada ante sit amet arcu scelerisque fringilla. Quisque pretium non orci id '
-            'aliquam. Duis bibendum nisi risus, eu vehicula orci dictum sit amet. Nullam lorem velit, '
-            'laoreet non erat sed, tincidunt malesuada sem. Interdum et malesuada fames ac ante ipsum primis '
-            'in faucibus. Duis aliquet a est tincidunt finibus. Sed mollis, dui sit amet dictum gravida, '
-            'enim diam accumsan urna, in rhoncus elit purus id neque. Etiam sed purus mollis, commodo nisi '
-            'eu, rhoncus dolor. Curabitur quis risus ante. Curabitur finibus tortor massa. Aenean.')
+        start_button = QPushButton(button_start_text)
+        intrduction = QLabel(introduction_text)
+        description = QLabel(description_text)
 
         description.setWordWrap(True)
 
