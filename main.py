@@ -4,6 +4,8 @@ from third_window import *
 
 
 app = QApplication(sys.argv)
-main_window = FirstScreen()
+third_window = ThirdScreen()
+second_window = SecondScreen(third_window)
+main_window = FirstScreen(second_window)
 
 sys.exit(app.exec_())
