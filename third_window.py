@@ -9,10 +9,9 @@ class ThirdScreen(QWidget):
         super().__init__()
         self.window_appearence()
         self.init_ui()
-        self.show()
 
     def window_appearence(self):
-        self.setFixedSize(500, 500)
+        self.setFixedSize(800, 500)
 
     def init_ui(self):
         self.result_label = QLabel(result_text)
