@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
-from instr import *
+import instr
 import sys
 
 
@@ -13,14 +13,14 @@ class FirstScreen(QWidget):
         self.connections()
         self.show()
 
-
     def window_appearence(self):
         self.setFixedSize(800, 500)
 
     def init_ui(self):
-        self.start_button = QPushButton(button_start_text)
-        self.intrduction_label = QLabel('<span style="font-size:15pt; font-weight: bold;">' + introduction_text + '</span>')
-        self.description_label = QLabel('<span style="font-size:15pt; ">' + description_text + '</span>')
+        self.start_button = QPushButton(instr.button_start_text)
+        self.intrduction_label = QLabel('<span style="font-size:15pt; font-weight: bold;">' + instr.introduction_text +
+                                        '</span>')
+        self.description_label = QLabel('<span style="font-size:15pt; ">' + instr.description_text + '</span>')
 
         self.description_label.setWordWrap(True)
 
