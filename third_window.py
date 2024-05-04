@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
-from instr import *
+import instr
 import sys
 
 
@@ -14,8 +14,8 @@ class ThirdScreen(QWidget):
         self.setFixedSize(800, 500)
 
     def init_ui(self):
-        self.result_label = QLabel(result_text)
-        self.heart_label = QLabel(heart_text)
+        self.result_label = QLabel(instr.result_text)
+        self.heart_label = QLabel(instr.heart_text)
 
         self.vertical_line = QVBoxLayout()
 
