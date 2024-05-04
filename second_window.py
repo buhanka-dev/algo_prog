@@ -1,7 +1,9 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-from instr import *
+import instr
 import sys
+
+k = instr.description_text
 
 
 class SecondScreen(QWidget):
@@ -26,14 +28,14 @@ class SecondScreen(QWidget):
         self.year_label = QLabel('Полных лет')
         self.year_entry = QLineEdit()
 
-        self.first_test_label = QLabel('Лягте на спину и замерьте пульс за 15 секунд. Нажмите кнопку "Начать первый тест", чтобы запустить таймер. Результат запишите в соответствующее поле.')
+        self.first_test_label = QLabel(instr.first_text)
         self.first_test_button = QPushButton('Начать первый тест')
         self.first_test_entry = QLineEdit()
 
-        self.second_test_label = QLabel('Выполните 30 приседаний за 45 секунд. Для этого нажмите кнопку "Начать делать приседания", чтобы запустить счетчик приседаний.')
+        self.second_test_label = QLabel(instr.second_text)
         self.second_test_button = QPushButton('Начать делать приседания')
 
-        self.third_test_label = QLabel('Лягте на спину и замерьте пульс сначала за первые 15 секунд минуты, затем за последние 15 секунд. Нажмите кнопку "Начать финальный тест", чтобы запустить таймер. Зеленым обозначены секунды, в течение которых необходимо проводить измерения, черным - минуты без замера пульсаций. Результаты запишите в соответствующие поля.')
+        self.third_test_label = QLabel(instr.third_text)
         self.third_test_button = QPushButton('Начать финальный тест')
 
         self.third_test_entry1 = QLineEdit()
@@ -45,7 +47,7 @@ class SecondScreen(QWidget):
         self.second_test_label.setWordWrap(True)
         self.third_test_label.setWordWrap(True)
 
-        self.timer_label = QLabel('<span style="font-size:40pt; ">99:99:99</span>')
+        self.timer_label = QLabel('<span style="font-size:40pt; "></span>')
 
         self.vertical_line_left.addWidget(self.name_label, alignment=Qt.AlignLeft)
         self.vertical_line_left.addWidget(self.name_entry, alignment=Qt.AlignLeft)
@@ -71,6 +73,57 @@ class SecondScreen(QWidget):
 
     def connections(self):
         self.next_button.clicked.connect(self.next_window)
+        self.first_test_button.clicked.connect(self.timer_test)
+        self.second_test_button.clicked.connect(self.timer_sits)
+        self.third_test_button.clicked.connect(self.timer_final)
+
+    def timer_test(self):
+        global time
+        time = QTime(0, 0, 15)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.simple_timer)
+        self.timer_label.setText('<span style="font-size:40pt; ">' + '00:15' + '</span>')
+        self.timer.start(1000)
+
+    def timer_sits(self):
+        global time
+        time = QTime(0, 0, 30)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.simple_timer)
+        self.timer_label.setText('<span style="font-size:40pt; ">' + '00:30' + '</span>')
+        self.timer.start(1000)
+
+    def timer_final(self):
+        global time
+        time = QTime(0, 1, 0)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.color_timer)
+        self.timer_label.setText('<span style="color:rgb(20, 255, 20); font-size:40pt;> 1:00 </span>')
+        self.timer.start(1000)
+
+    def simple_timer(self):
+        global time
+        time = time.addSecs(-1)
+        self.timer_label.setText('<span style="font-size:40pt; ">' + time.toString('mm:ss') + '</span>')
+        if time.toString('mm:ss') == '00:00':
+            self.timer.stop()
+            self.timer_label.setText('<span style="font-size:40pt; "> </span>')
+
+    def color_timer(self):
+        global time
+        time = time.addSecs(-1)
+        if int(time.toString('mm:ss')[3::]) <= 45:
+            self.timer_label.setText(
+                '<span style="color:rgb(0, 0, 0); font-size:40pt; ">' + time.toString('mm:ss') + '</span>')
+        if int(time.toString('mm:ss')[3::]) <= 15:
+            self.timer_label.setText(
+                '<span style="color:rgb(20, 255, 20); font-size:40pt; ">' + time.toString('mm:ss') + '</span>')
+        if int(time.toString('mm:ss')[3::]) > 45:
+            self.timer_label.setText(
+                '<span style="color:rgb(20, 255, 20); font-size:40pt; ">' + time.toString('mm:ss') + '</span>')
+        if time.toString('mm:ss') == '00:00':
+            self.timer.stop()
+            self.timer_label.setText('<span style="font-size:40pt; "> </span>')
 
     def next_window(self):
         self.hide()
