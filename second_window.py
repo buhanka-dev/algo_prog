@@ -3,8 +3,6 @@ from PyQt5.QtWidgets import *
 import instr
 import sys
 
-k = instr.description_text
-
 
 class SecondScreen(QWidget):
     def __init__(self, next_window):
